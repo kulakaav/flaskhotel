@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+{% block head %}
+<title>Update Event - Event Manager</title>
+
+<!-- Include Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+    /* Add the same styles as in events.html */
+    .wrapper {
+        display: flex;
+    }
+    /* Sidebar Styling */
+    .sidebar {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: rgba(128, 0, 128, 0.9);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+        }
+
+        .sidebar a {
+            color: #f0f0f0;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .sidebar a:hover {
+            color: #d6b3ff;
+        }
+
+    .content {
+        flex-grow: 1;
+        padding: 20px;
+    }
+
+    .form-section {
+        margin-bottom: 20px;
+    }
+
+    .form-section .card {
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        background-color: rgba(45, 45, 78, 0.9); /* Violet background for card */
+    }
+
+    .form-section .card-header {
+        font-weight: bold;
+        background-color: #6a1b9a; /* Dark violet for header */
+        color: white;
+        border-radius: 8px 8px 0 0;
+    }
+
+    .form-section .form-control {
+        background-color: #2e2e6a; /* Dark violet for input fields */
+        color: #f0f0f0;
+        border: 1px solid #444;
+    }
+
+    .form-section .form-label {
+        color: #ffd700; /* Golden color for labels */
+    }
+
+    .btn-success {
+        background-color: #8e24aa; /* Violet button */
+        border-color: #6a1b9a;
+        color: #f0f0f0;
+    }
+
+    .btn-success:hover {
+        background-color: #7b1fa2; /* Darker violet on hover */
+    }
+
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="wrapper">
+    <div class="sidebar">
+        <h2>Event Manager</h2>
+        <a href="{{ url_for('Home_page') }}">Home</a>
+        <a href="{{ url_for('manage_events') }}">Events</a>
+        <a href="{{ url_for('about') }}">About</a>
+        <a href="/">Exit</a>
+    </div>
+    <div class="content">
+        <div class="form-section card">
+            <div class="card-header">Update Event</div>
+            <div class="card-body">
+                <!-- Update Event Form -->
+                <form action="{{ url_for('update_event', id=event.id) }}" method="POST">
+                    <div class="mb-3">
+                        <label for="customer_name" class="form-label">Customer Name</label>
+                        <input type="text" class="form-control" id="customer_name" name="customer_name" value="{{ event.customer_name }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="event_name" class="form-label">Event Name</label>
+                        <input type="text" class="form-control" id="event_name" name="event_name" value="{{ event.name }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="event_date" class="form-label">Event Date</label>
+                        <input type="date" class="form-control" id="event_date" name="event_date" value="{{ event.date }}" required>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="advance_payment" class="form-label">Advance Payment</label>
+                            <input type="number" class="form-control" id="advance_payment" name="advance_payment" step="0.01" value="{{ event.advance_payment }}" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="total_payment" class="form-label">Total Payment</label>
+                            <input type="number" class="form-control" id="total_payment" name="total_payment" step="0.01" value="{{ event.total_payment }}" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="full_day" class="form-label">Full Day Event</label>
+                        <input type="checkbox" id="full_day" name="full_day" {% if event.full_day %}checked{% endif %}>
+                    </div>
+                    <button type="submit" class="btn btn-success">Update Event</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

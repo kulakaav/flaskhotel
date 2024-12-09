@@ -1,0 +1,264 @@
+{% extends "base.html" %}
+{% block head %}
+<title>Event Manager - Home</title>
+<!-- Include Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEJ8vJ6f9Do1H2Gb82L5k9g2ImQbb27+oS9lGocpSAwR7CmOFS1+a+1xaXYK9" crossorigin="anonymous">
+
+<!-- FullCalendar CSS -->
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css" rel="stylesheet">
+
+<!-- Google Fonts: Comic Sans and Marvel-style fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Russo+One&display=swap" rel="stylesheet">
+
+<style>
+    /* Basic reset */
+    body {
+        margin: 0;
+        font-family: 'Russo One', sans-serif; /* Space-inspired font */
+        background-color: #1a1a1a; /* Dark background */
+        color: #f0f0f0; /* Light text for contrast */
+        background-image: url('https://source.unsplash.com/1920x1080/?galaxy'); /* Galaxy background */
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    /* Flexbox layout */
+    .wrapper {
+        display: flex;
+        height: 100vh;
+    }
+
+       /* Sidebar Styling */
+    /* Sidebar Styling */
+.sidebar {
+    width: 100%; /* Full width to act like a nav bar */
+    background-color: rgba(128, 0, 128, 0.9); /* Violet color with transparency */
+    color: #f0f0f0;
+    display: flex;
+    justify-content: space-around; /* Space out links evenly */
+    align-items: center; /* Center items vertically */
+    position: fixed; /* Fix the position at the bottom */
+    bottom: 0; /* Align at the bottom of the page */
+    padding: 10px 0; /* Add vertical padding */
+    box-shadow: 0 -3px 15px rgba(0, 0, 0, 0.6); /* Shadow for better visibility */
+}
+
+/* Sidebar Title */
+.sidebar h2 {
+    color: #e0b3ff; /* Light violet to stand out */
+    font-size: 1.8rem;
+    margin: 0 20px; /* Add space around the title */
+}
+
+/* Links inside the sidebar */
+.sidebar a {
+    color: #f0f0f0;
+    text-decoration: none;
+    width: 50px; /* Set the width to be the same as the height */
+    height: 50px; /* Set the height to be circular */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%; /* Circular shape */
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition */
+    font-size: 1.2rem; /* Adjust font size */
+}
+
+.sidebar a:hover {
+    background-color: #e0b3ff; /* Light violet for hover */
+    color: #1a1a1a; /* Contrast text on hover */
+}
+
+/* Additional styling for responsive design if needed */
+@media (max-width: 768px) {
+    .sidebar {
+        flex-direction: row; /* Keep links horizontal on smaller screens */
+        padding: 5px 0; /* Adjust padding */
+    }
+
+    .sidebar a {
+        width: 40px; /* Adjust the size for smaller screens */
+        height: 40px; /* Adjust the size for smaller screens */
+    }
+}
+
+
+
+    .content {
+        flex: 1;
+        padding: 20px;
+        background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent content background */
+        overflow-y: auto;
+    }
+
+    h1, h2, h3, p {
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6); /* Subtle shadow */
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 20px;
+        font-family: 'Press Start 2P', cursive; /* Retro comic font */
+    }
+
+    .calendar-container {
+        max-width: 900px;
+        margin: 0 auto;
+        border: 5px solid #4a148c; /* Purple border */
+        padding: 10px;
+        border-radius: 10px;
+        background-color: rgba(0, 0, 0, 0.5); /* Darker container */
+    }
+
+    .fc-event {
+        background-color: #ff4d4d;
+        border-color: #ff4d4d;
+    }
+
+    /* Styling for buttons */
+    .btn-primary {
+        background-color: #f44336; /* Red for Marvel theme */
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-family: 'Russo One', sans-serif;
+        text-transform: uppercase;
+    }
+
+    .btn-primary:hover {
+        background-color: #d32f2f;
+        box-shadow: 0 0 10px #ff0000; /* Glowing effect */
+    }
+    .card-container {
+    display: flex;
+    flex-wrap: wrap; /* Allows wrapping of cards to the next line if needed */
+    justify-content: space-around; /* Distributes cards evenly */
+    gap: 20px; /* Space between cards */
+    margin: 20px 0; /* Margin to separate from other sections */
+}
+
+.card {
+    width: 300px; /* Adjust to set card width */
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #fff;
+    flex: 1 1 auto; /* Allows flexibility */
+    max-width: 300px; /* Ensures card size doesn't exceed this width */
+}
+
+        .card h2 {
+            margin-top: 0;
+        }
+        .card .details {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 10px;
+        }
+        .card .contact {
+            font-size: 12px;
+            color: #333;
+        }
+        .card .contact a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+        .card .contact a:hover {
+            text-decoration: underline;
+        }
+</style>
+
+{% endblock %}
+
+{% block body %}
+<div class="wrapper">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>Lirary Manager</h2>
+        <a href="{{ url_for('Home_page') }}">Home</a>
+        <a href="{{ url_for('manage_events') }}">Cusotmers</a>
+        <a href="{{ url_for('about') }}">About</a>
+        <a href="/">Go to landing page</a>
+    </div>
+
+    <!-- Content Section -->
+    <div class="content">
+        <h1>Welcome to Lirary Manager</h1>
+        <p>Organize and track your events with ease. Navigate using the menu on the left to manage events or learn more about us.</p>
+
+      
+      
+        <div class="card-container">
+            <div class="card">
+                <h2>Modern Family room</h2>
+                <img src="https://via.placeholder.com/300x200" alt="Property Image">
+                <p class="details"><strong>Location:</strong> Los Angeles, CA</p>
+                <p class="details"><strong>Price:</strong> $1,200,000</p>
+                <p class="details"><strong>Bedrooms:</strong> 4</p>
+                <p class="details"><strong>Bathrooms:</strong> 3</p>
+                <p class="details"><strong>Size:</strong> 2,500 sq ft</p>
+        
+                <p class="details">Beautiful modern home with spacious interiors, a large backyard, and a gourmet kitchen.</p>
+        
+                <div class="contact">
+                    <p><strong>Contact:</strong></p>
+                    <p>Email: <a href="mailto:realestate@example.com">realestate@example.com</a></p>
+                    <p>Phone: (555) 123-4567</p>
+                </div>
+            </div>
+            <div class="card">
+                <h2>Luxury room</h2>
+                <img src="https://via.placeholder.com/300x200" alt="Property Image">
+                <p class="details"><strong>Location:</strong> Miami, FL</p>
+                <p class="details"><strong>Price:</strong> $750,000</p>
+                <p class="details"><strong>Bedrooms:</strong> 3</p>
+                <p class="details"><strong>Bathrooms:</strong> 2</p>
+                <p class="details"><strong>Size:</strong> 1,800 sq ft</p>
+        
+                <p class="details">Modern luxury apartment with ocean views, high-end finishes, and a private balcony.</p>
+        
+                <div class="contact">
+                    <p><strong>Contact:</strong></p>
+                    <p>Email: <a href="mailto:realestate@example.com">realestate@example.com</a></p>
+                    <p>Phone: (555) 987-6543</p>
+                </div>
+            </div>
+            <div class="card">
+                <h2>Charming Cottage room</h2>
+                <img src="https://via.placeholder.com/300x200" alt="Property Image">
+                <p class="details"><strong>Location:</strong> Asheville, NC</p>
+                <p class="details"><strong>Price:</strong> $450,000</p>
+                <p class="details"><strong>Bedrooms:</strong> 2</p>
+                <p class="details"><strong>Bathrooms:</strong> 1</p>
+                <p class="details"><strong>Size:</strong> 1,200 sq ft</p>
+        
+                <p class="details">Cozy cottage with a rustic charm, surrounded by nature and featuring a wood-burning fireplace.</p>
+        
+                <div class="contact">
+                    <p><strong>Contact:</strong></p>
+                    <p>Email: <a href="mailto:realestate@example.com">realestate@example.com</a></p>
+                    <p>Phone: (555) 222-3333</p>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+          
+        
+    </div>
+    
+</div>
+
+<!-- FullCalendar JS -->
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js"></script>
+
+<!-- JavaScript to render the calendar with booked dates -->
+<script>
+ 
+</script>
+
+{% endblock %}
